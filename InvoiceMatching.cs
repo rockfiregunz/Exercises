@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+ 
 
 namespace Topic.Invoice
 {
@@ -56,10 +57,8 @@ namespace Topic.Invoice
 
             lottery.ForEach(x => { 
                 int i = Invoice.IndexOf(x);
-                if (i>-1)
-                {
-                    Result.Add(@$"{x}(第{i+1}筆)");
-                }                    
+                if (i>-1)   Result.Add(@$"{x}(第{i+1}筆)");
+                                
             });
             Console.WriteLine(@$"題目2");
             Console.WriteLine(@$"中獎結果是: {string.Join(",", Result)}");
@@ -67,47 +66,38 @@ namespace Topic.Invoice
 
         public void 題目3()
         {
-            //, 10119, 85431, 95901, 06981, 77002,54321,51811, 99672
-            var Invoice = "66222,81001,52672,06981,".Split(",").ToList();
+ 
+            var Invoice = "66222,81001,52672, 10119, 85431, 95901, 06981, 77002,54321,51811, 99672".Split(",").ToList();
             var Result = new List<string>();
-            
-            Invoice = Invoice.Select(x => x.Trim()).ToList(); 
-            Invoice.ForEach(x => {
-
-                CheckInvoice(3, x);
-                /*
-                int i = Invoice.IndexOf(x);
-                if (i > -1)
-                {
-                    Result.Add(@$"{x}(第{i + 1}筆)");
-                }*/
-            });
 
             Console.WriteLine(@$"題目3");
+            Console.WriteLine(@$"中獎結果是: {string.Join(",", Result)}");
+            Invoice = Invoice.Select(x => x.Trim()).Where(x=>x!="").ToList(); 
+            Invoice.ForEach(x => {
+                題目3方法1(Result,x.Length, x, Invoice.IndexOf(x));
+            });
+
+        
         }
 
-        public  void  CheckInvoice(int inx, string Invoice)
+        public void 題目3方法1 (List<string> Result, int inx, string Invoice,int reutrn_inx)
         {
-            int start = Invoice.Length - inx;            
- 
-            if(start>-1 && inx<6)
+            if (inx > -1 && inx>2)
             {
+                int start = Invoice.Length - inx;
                 var lottery = "82132, 02672, 09780, 66981, 54321,00220".Split(",").ToList();
-                lottery = lottery.Select(x => x.Trim()).Select(x=>x.Substring(start)).ToList();
-
-                 var tmp = Invoice.Substring(start);
-                Console.WriteLine(@$"{tmp}-{lottery.Contains(tmp)}");
-                Console.WriteLine(@$"中獎結果是: {string.Join(",", lottery)}");
-
-                if(lottery.Contains(tmp))
-                {                    
-                    CheckInvoice(++inx, Invoice);
-                }             
-
-                // if(lottery.Contains(tmp)) 
-                //  
-            }
-              
+                lottery = lottery.Select(x => x.Trim()).Select(x => x.Substring(start)).ToList();
+                var tmp = Invoice.Substring(start);
+                if (lottery.Contains(tmp))
+                {
+                    // Result.Add(@$"{Invoice}   (第筆，中獎號碼是{tmp})");
+                    Console.WriteLine(@$"{Invoice}   (第{reutrn_inx+1}筆，中獎號碼是{tmp})");
+                }
+                else
+                {
+                    題目3方法1(Result,--inx, Invoice, reutrn_inx);
+                }  
+            }          
         }
     }
 
