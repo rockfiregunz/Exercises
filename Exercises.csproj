@@ -13,4 +13,14 @@
     <None Remove="TestProject1\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Introduction\" />
+    <Folder Include="MVC\" />
+    <Folder Include="OOP\" />
+  </ItemGroup>
+
 </Project>
